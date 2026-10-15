@@ -11,12 +11,14 @@ jobs:
           java-version: '17'
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
+        with:
+          gradle-version: 8.1
+      - name: Init wrapper
+        run: gradle wrapper --gradle-version 8.1
       - name: Build APK
-        run: |
-          chmod +x./gradlew || echo "no gradlew"
-          gradle :app:assembleDebug --no-daemon ||./gradlew :app:assembleDebug
+        run:./gradlew :app:assembleDebug
       - name: Upload APK
         uses: actions/upload-artifact@v3
         with:
           name: Biggs-APK
-          path: app/build/outputs/apk/debug/*.apk
+          path: app/build/outputs/apk/debug/app-debug.apk
